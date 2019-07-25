@@ -12,24 +12,34 @@ namespace BMI_Calculator
 {
     public partial class CalculatorForm : Form
     {
+        /// <summary>
+        /// This is the constructor for the CalculatorForm
+        /// </summary>
         public CalculatorForm()
         {
             InitializeComponent();
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// This is a shared event handler for the CalculatorButton click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CalculatorButton_Click(object sender, EventArgs e)
         {
+            var TheButton = sender as Button;
 
-        }
+            int ButtonValue;
+            bool Result = int.TryParse(TheButton.Text, out ButtonValue);
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
+            if(Result)
+            {
+                ResultLabel.Text = TheButton.Text;
+            }
+            else
+            {
+                ResultLabel.Text = "Not a number (NAN)";
+            }
+            
         }
     }
 }
