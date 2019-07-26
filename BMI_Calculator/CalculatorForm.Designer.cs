@@ -45,6 +45,7 @@
             this.ZeroButton = new System.Windows.Forms.Button();
             this.DoneButton = new System.Windows.Forms.Button();
             this.TheHeightLabel = new System.Windows.Forms.Label();
+            this.WeightLabel = new System.Windows.Forms.Label();
             this.CalculatorButtonTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -337,22 +338,40 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TheHeightLabel.BackColor = System.Drawing.Color.White;
             this.TheHeightLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TheHeightLabel.Font = new System.Drawing.Font("Arial", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TheHeightLabel.Location = new System.Drawing.Point(31, 24);
+            this.TheHeightLabel.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TheHeightLabel.Location = new System.Drawing.Point(331, 20);
             this.TheHeightLabel.Name = "TheHeightLabel";
-            this.TheHeightLabel.Size = new System.Drawing.Size(188, 61);
+            this.TheHeightLabel.Size = new System.Drawing.Size(170, 45);
             this.TheHeightLabel.TabIndex = 2;
             this.TheHeightLabel.Tag = "height";
             this.TheHeightLabel.Text = "0";
-            this.TheHeightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.TheHeightLabel.Click += new System.EventHandler(this.TheHeightLabel_Click);
+            this.TheHeightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TheHeightLabel.Click += new System.EventHandler(this.ActiveLabel_Click);
+            // 
+            // WeightLabel
+            // 
+            this.WeightLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.WeightLabel.BackColor = System.Drawing.Color.White;
+            this.WeightLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.WeightLabel.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WeightLabel.Location = new System.Drawing.Point(331, 88);
+            this.WeightLabel.Name = "WeightLabel";
+            this.WeightLabel.Size = new System.Drawing.Size(173, 45);
+            this.WeightLabel.TabIndex = 3;
+            this.WeightLabel.Tag = "height";
+            this.WeightLabel.Text = "0";
+            this.WeightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.WeightLabel.Click += new System.EventHandler(this.ActiveLabel_Click);
             // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(537, 544);
+            this.ClientSize = new System.Drawing.Size(537, 536);
+            this.Controls.Add(this.WeightLabel);
             this.Controls.Add(this.TheHeightLabel);
             this.Controls.Add(this.CalculatorButtonTableLayoutPanel);
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -362,7 +381,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calculator Form";
             this.Load += new System.EventHandler(this.CalculatorForm_Load);
-            this.Click += new System.EventHandler(this.CalculatorButton_Click);
+            this.Click += new System.EventHandler(this.CalculatorForm_Click);
             this.CalculatorButtonTableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -387,6 +406,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label TheHeightLabel;
+        private System.Windows.Forms.Label WeightLabel;
     }
 }
 

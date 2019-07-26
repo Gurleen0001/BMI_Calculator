@@ -14,8 +14,10 @@ namespace BMI_Calculator
     {
         // CLASS PROPPERTIES
         public string outputString { get; set; }
-        public float outputValue { get; set; }
         public bool decimalExists { get; set; }
+        public float outputValue { get; set; } 
+
+        public Label ActiveLabel { get; set; }
 
         /// <summary>
         /// This is the constructor for the CalculatorForm
@@ -23,6 +25,32 @@ namespace BMI_Calculator
         public CalculatorForm()
         {
             InitializeComponent();
+        }
+        /// <summary>
+        /// This is the event handler for the form load event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CalculatorForm_Load(object sender, EventArgs e)
+        {
+            clearNumericKeyboard();
+            ActiveLabel = null;
+            CalculatorButtonTableLayoutPanel.Visible = false;
+        }
+        /// <summary>
+        /// This is the event handler for the CalculatorForm click event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CalculatorForm_Click(object sender, EventArgs e)
+        {
+            clearNumericKeyboard();
+            if(ActiveLabel!=null)
+            {
+                ActiveLabel.BackColor = Color.White;
+            }
+            ActiveLabel = null;
+            CalculatorButtonTableLayoutPanel.Visible = false;
         }
         /// <summary>
         /// This is a shared event handler for the CalculatorButton click event
@@ -102,9 +130,12 @@ namespace BMI_Calculator
             {
                 outputValue = 0.1f;
             }
-            TheHeightLabel.Text = outputValue.ToString();
+            ActiveLabel.Text = outputValue.ToString();
             clearNumericKeyboard();
             CalculatorButtonTableLayoutPanel.Visible = false;
+
+            ActiveLabel.BackColor = Color.White;
+            ActiveLabel = null;
         }
         /// <summary>
         /// This method removes the last character from the resultLabel
@@ -135,29 +166,35 @@ namespace BMI_Calculator
             outputValue = 0.0f;
             decimalExists = false;
         }
-        /// <summary>
-        /// This is the event handler for the form load event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CalculatorForm_Load(object sender, EventArgs e)
-        {
-            clearNumericKeyboard();
-            CalculatorButtonTableLayoutPanel.Visible = false;
-        }
+        
 
         private void label1_Click(object sender, EventArgs e)
         {
 
         }
         /// <summary>
-        /// This is the event handler for the height label click event
+        /// This is the event handler for the HeightLabel click event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TheHeightLabel_Click(object sender, EventArgs e)
+        private void ActiveLabel_Click(object sender, EventArgs e)
         {
+            if(ActiveLabel !=null)
+            {
+                ActiveLabel.BackColor = Color.White;
+                ActiveLabel = null;
+            }
+            ActiveLabel = sender as Label;
+            ActiveLabel.BackColor = Color.LightBlue;
             CalculatorButtonTableLayoutPanel.Visible = true;
+
+            if(ActiveLabel.Text!="0")
+            {
+                ResultLabel.Text = ActiveLabel.Text;
+                outputString = ResultLabel.Text;
+            }
         }
+
+        
     }
 }
