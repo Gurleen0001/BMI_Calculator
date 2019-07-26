@@ -18,30 +18,26 @@ namespace BMI_Calculator
         public float outputValue { get; set; } 
 
         public Label ActiveLabel { get; set; }
+        public double BMIresult { get; set; }
 
-        /// <summary>
-        /// This is the constructor for the CalculatorForm
-        /// </summary>
+        public Animation animationfield;
+
+       
         public CalculatorForm()
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// This is the event handler for the form load event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+      
         private void CalculatorForm_Load(object sender, EventArgs e)
         {
             clearNumericKeyboard();
             ActiveLabel = null;
             CalculatorButtonTableLayoutPanel.Visible = false;
+
+            this.Size = new Size(320, 480);
+            animationfield = Animation.IDLE;
         }
-        /// <summary>
-        /// This is the event handler for the CalculatorForm click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+       
         private void CalculatorForm_Click(object sender, EventArgs e)
         {
             clearNumericKeyboard();
@@ -50,16 +46,13 @@ namespace BMI_Calculator
                 ActiveLabel.BackColor = Color.White;
             }
             ActiveLabel = null;
-            CalculatorButtonTableLayoutPanel.Visible = false;
+            animationfield = Animation.DOWN;
+            AnimatedTimer.Enabled = true;
         }
-        /// <summary>
-        /// This is a shared event handler for the CalculatorButton click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void CalculatorButton_Click(object sender, EventArgs e)
         {
-            var TheButton = sender as Button;
+            Button TheButton = sender as Button;
             var tag = TheButton.Tag.ToString();
             int numericValue = 0;
 
@@ -100,9 +93,7 @@ namespace BMI_Calculator
             }
 
         }
-        /// <summary>
-        /// this method adds a decimal point to the resultLabel
-        /// </summary>
+       
         private void addDecimalToResultLabel()
         {
             if (!decimalExists)
@@ -111,11 +102,13 @@ namespace BMI_Calculator
                 decimalExists = true;
             }
         }
-        /// <summary>
-        /// This method finalizes and converts the outputString to a floating point value
-        /// </summary>
+       
         private void finalizeOutput()
         {
+            if (outputString == string.Empty)
+            {
+                outputString = "0";
+            }
             //if (decimalExists)
             //{
             //    if(outputString.Length > 3)
@@ -125,21 +118,41 @@ namespace BMI_Calculator
             //    }
             //}
             outputValue = float.Parse(outputString);
-            outputValue = (float)(Math.Round(outputValue, 1));
-            if (outputValue < 0.1f)
-            {
-                outputValue = 0.1f;
-            }
+            //outputValue = (float)(Math.Round(outputValue, 1));
+            //if (outputValue < 0.1f)
+            //{
+            //    outputValue = 0.1f;
+            //}
             ActiveLabel.Text = outputValue.ToString();
-            clearNumericKeyboard();
-            CalculatorButtonTableLayoutPanel.Visible = false;
+            if (TheHeightLabel.Text=="0")
+            {
+                TheHeightLabel.Text = "0.1";
+                clearNumericKeyboard();
 
-            ActiveLabel.BackColor = Color.White;
-            ActiveLabel = null;
+                CalculatorButtonTableLayoutPanel.Visible = false;
+
+                ActiveLabel.BackColor = Color.White;
+                ActiveLabel = null;
+
+                animationfield = Animation.DOWN;
+                AnimatedTimer.Enabled = true;
+            }
+           else if (WeightLabel.Text=="0")
+            {
+                WeightLabel.Text = "0.1";
+                clearNumericKeyboard();
+
+                CalculatorButtonTableLayoutPanel.Visible = false;
+
+                ActiveLabel.BackColor = Color.White;
+                ActiveLabel = null;
+
+                animationfield = Animation.DOWN;
+                AnimatedTimer.Enabled = true;
+            }
+
         }
-        /// <summary>
-        /// This method removes the last character from the resultLabel
-        /// </summary>
+        
         private void removeLastCharacterFromResultLabel()
         {
             var lastChar = outputString.Substring(outputString.Length - 1);
@@ -155,9 +168,6 @@ namespace BMI_Calculator
             ResultLabel.Text = outputString;
         }
 
-        /// <summary>
-        /// This method resets the numeric keyboard and related variables
-        /// </summary>
 
         private void clearNumericKeyboard()
         {
@@ -172,11 +182,7 @@ namespace BMI_Calculator
         {
 
         }
-        /// <summary>
-        /// This is the event handler for the HeightLabel click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+       
         private void ActiveLabel_Click(object sender, EventArgs e)
         {
             if(ActiveLabel !=null)
@@ -193,8 +199,83 @@ namespace BMI_Calculator
                 ResultLabel.Text = ActiveLabel.Text;
                 outputString = ResultLabel.Text;
             }
+            CalculatorButtonTableLayoutPanel.BringToFront();
+            AnimatedTimer.Enabled = true;
+            animationfield = Animation.UP;
+        }
+        
+        private void MetricButton_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
-        
+        private void AnimatedTimer_Tick(object sender, EventArgs e)
+        {
+            switch (animationfield)
+            {
+                case Animation.IDLE:
+                    break;
+                case Animation.UP:
+                    UpKeyboard();
+                    break;
+                case Animation.DOWN:
+                    DownKeyBoard();
+                    break;
+            }
+        }
+
+        private void UpKeyboard()
+        {
+            var currentLocation = CalculatorButtonTableLayoutPanel.Location;
+            currentLocation = new Point(currentLocation.X, currentLocation.Y - 20);
+            CalculatorButtonTableLayoutPanel.Location = currentLocation;
+            if(currentLocation.Y <= ActiveLabel.Location.Y + 35)
+            {
+                CalculatorButtonTableLayoutPanel.Location = new Point(currentLocation.X, ActiveLabel.Location.Y + 35);
+
+                AnimatedTimer.Enabled = false;
+                animationfield = Animation.IDLE;
+            }
+        }
+        private void DownKeyBoard()
+        {
+            var currentLocation = CalculatorButtonTableLayoutPanel.Location;
+            currentLocation = new Point(currentLocation.X, currentLocation.Y + 20);
+            CalculatorButtonTableLayoutPanel.Location = currentLocation;
+            if (currentLocation.Y >=466)
+            {
+                CalculatorButtonTableLayoutPanel.Location = new Point(currentLocation.X, 466);
+                AnimatedTimer.Enabled = false;
+                animationfield = Animation.IDLE;
+                CalculatorButtonTableLayoutPanel.Visible = false;
+            }
+        }
+
+        private void CalculateButton_Click(object sender, EventArgs e)
+        {
+            double Height = Convert.ToDouble(TheHeightLabel.Text);
+            double Weight = Convert.ToDouble(WeightLabel.Text);
+
+            if (ImperialButton.Checked)
+            {
+                BMIresult = Weight * 703 / Math.Pow(Height, 2);
+                ResultBox.Text = BMIresult.ToString();
+            }
+            else if (MetricButton.Checked)
+            {
+                BMIresult = Weight / Math.Pow(Height, 2);
+                ResultBox.Text = BMIresult.ToString();
+            }
+        }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            clearNumericKeyboard();
+            ResultBox.Text = "";
+            TheHeightLabel.Text = "";
+            WeightLabel.Text = "";
+
+        }
     }
+    
 }

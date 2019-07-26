@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation.cs" />
     <Compile Include="CalculatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +83,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\backbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\backbutton1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bmicalculator.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bmicalculator1.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
